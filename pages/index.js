@@ -3,6 +3,7 @@ import Image from "next/image";
 import Banner from "../components/banner";
 import styles from "../styles/Home.module.css";
 import useTrackLocation from "../hooks/use-track-location";
+import Card from "../components/card";
 
 export default function Home() {
     const { handleTrackLocation, locationErrorMsg, isFindingLocation } = useTrackLocation();
@@ -25,6 +26,11 @@ export default function Home() {
                 />
                 <div className={styles.heroImage}>
                     <Image src="/static/hero-image.png" width={700} height={400} alt="hero image" />
+                    <Card
+                        name="cofee been"
+                        href="/static/background.png"
+                        imgUrl="/static/background.png"
+                    />
                 </div>
             </main>
         </div>
