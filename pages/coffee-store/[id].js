@@ -58,6 +58,8 @@ export async function getStaticPaths() {
 
 const CoffeeStore = (props) => {
     const router = useRouter();
+    const [votingCount, setVotingCount] = useState(0);
+
     if (router.isFallback) {
         return <div>Loading...</div>;
     }
@@ -114,8 +116,6 @@ const CoffeeStore = (props) => {
 
     // const { address, name, neighbourhood, imgUrl } = coffeeStore;
 
-    const [votingCount, setVotingCount] = useState(0);
-
     // const { data, error } = useSWR(`/api/getCoffeeStoreById?id=${id}`);
 
     // useEffect(() => {
@@ -126,28 +126,26 @@ const CoffeeStore = (props) => {
     //   }
     // }, [data]);
 
-    // const handleUpvoteButton = async () => {
-    //   try {
-    //     const response = await fetch("/api/favouriteCoffeeStoreById", {
-    //       method: "PUT",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         id,
-    //       }),
-    //     });
-
-    //     const dbCoffeeStore = await response.json();
-
-    //     if (dbCoffeeStore && dbCoffeeStore.length > 0) {
-    //       let count = votingCount + 1;
-    //       setVotingCount(count);
-    //     }
-    //   } catch (err) {
-    //     console.error("Error upvoting the coffee store", err);
-    //   }
-    // };
+    const handleUpvoteButton = async () => {
+        // try {
+        //   const response = await fetch("/api/favouriteCoffeeStoreById", {
+        //     method: "PUT",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //       id,
+        //     }),
+        //   });
+        //   const dbCoffeeStore = await response.json();
+        //   if (dbCoffeeStore && dbCoffeeStore.length > 0) {
+        //     let count = votingCount + 1;
+        //     setVotingCount(count);
+        //   }
+        // } catch (err) {
+        //   console.error("Error upvoting the coffee store", err);
+        // }
+    };
 
     // if (error) {
     //   return <div>Something went wrong retrieving coffee store page</div>;
@@ -170,7 +168,6 @@ const CoffeeStore = (props) => {
                         <h1 className={styles.name}>{name}</h1>
                     </div>
                     <Image
-                        alt="banner image"
                         src={
                             imgUrl ||
                             "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
@@ -212,10 +209,10 @@ const CoffeeStore = (props) => {
                         />
                         <p className={styles.text}>{votingCount}</p>
                     </div>
-                    {/* 
+
                     <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
                         Up vote!
-                    </button> */}
+                    </button>
                 </div>
             </div>
         </div>
