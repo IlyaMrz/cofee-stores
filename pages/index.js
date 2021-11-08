@@ -6,6 +6,8 @@ import useTrackLocation from "../hooks/use-track-location";
 import Card from "../components/card";
 import coffeeStoresData from "../data/coffee-stores.json";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
+import { useContext, useState } from "react";
+import { StoreContext } from "../store/store-context";
 
 export async function getStaticProps(context) {
     const coffeeStores = await fetchCoffeeStores();
@@ -18,9 +20,14 @@ export async function getStaticProps(context) {
 
 export default function Home({ coffeeStores }) {
     const { handleTrackLocation, locationErrorMsg, isFindingLocation } = useTrackLocation();
+    const [coffeeStoresError, setCoffeeStoresError] = useState(null);
+    const { dispatch, state } = useContext(StoreContext);
+    // const { coffeeStores, latLong } = state;
+
     const handleOnBannerBtnClick = () => {
         handleTrackLocation();
     };
+
     return (
         <div className={styles.container}>
             <Head>
@@ -36,6 +43,8 @@ export default function Home({ coffeeStores }) {
                     buttonText={isFindingLocation ? "Locating..." : "View stores nearby"}
                     handleOnClick={handleOnBannerBtnClick}
                 />
+                {locationErrorMsg && <p>Something went wrong: {locationErrorMsg}</p>}
+                {coffeeStoresError && <p>Something went wrong: {coffeeStoresError}</p>}
                 <div className={styles.heroImage}>
                     <Image src="/static/hero-image.png" width={700} height={400} alt="hero image" />
                 </div>
