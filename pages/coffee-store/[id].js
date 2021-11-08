@@ -3,20 +3,22 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
-import coffeStoresData from "../../data/coffee-stores.json";
+// import coffeStoresData from "../../data/coffee-stores.json";
 // import useSWR from "swr";
 
 import cls from "classnames";
 import styles from "../../styles/coffee-store.module.css";
+import { fetchCoffeeStores } from "../../lib/coffee-stores";
 
 export async function getStaticProps(staticProps) {
     const params = staticProps.params;
-    const findCoffeeStoreById = coffeStoresData.find((coffeeStore) => {
-        return coffeeStore.id.toString() === params.id; //dynamic id
-    });
+    const coffeeStores = await fetchCoffeeStores();
+
     return {
         props: {
-            coffeeStore: findCoffeeStoreById ? findCoffeeStoreById : {},
+            coffeeStore: coffeeStores.find((coffeStore) => {
+                return coffeStore.id.toString() == params.id;
+            }),
         },
     };
 }
@@ -42,8 +44,9 @@ export async function getStaticProps(staticProps) {
 // }
 
 export async function getStaticPaths() {
-    // const coffeeStores = await fetchCoffeeStores();
-    const paths = coffeStoresData.map((coffeeStore) => {
+    const coffeeStores = await fetchCoffeeStores();
+
+    const paths = coffeeStores.map((coffeeStore) => {
         return {
             params: {
                 id: coffeeStore.id.toString(),
@@ -150,7 +153,7 @@ const CoffeeStore = (props) => {
     // if (error) {
     //   return <div>Something went wrong retrieving coffee store page</div>;
     // }
-    const { name, address, neighbourhood, imgUrl } = props.coffeeStore;
+    const { name, location, imgUrl } = props.coffeeStore;
     return (
         <div className={styles.layout}>
             <Head>
@@ -187,9 +190,11 @@ const CoffeeStore = (props) => {
                             height="24"
                             alt="places icon"
                         />
-                        <p className={styles.text}>{address}</p>
+                        <p className={styles.text}>
+                            {location.address ?? location.formattedAddress[0]}
+                        </p>
                     </div>
-                    {neighbourhood && (
+                    {location.neighborhood && (
                         <div className={styles.iconWrapper}>
                             <Image
                                 src="/static/icons/nearMe.svg"
@@ -197,7 +202,7 @@ const CoffeeStore = (props) => {
                                 height="24"
                                 alt="near me icon"
                             />
-                            <p className={styles.text}>{neighbourhood}</p>
+                            <p className={styles.text}>{location.neighborhood}</p>
                         </div>
                     )}
                     <div className={styles.iconWrapper}>
