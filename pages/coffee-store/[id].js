@@ -153,7 +153,7 @@ const CoffeeStore = (props) => {
     // if (error) {
     //   return <div>Something went wrong retrieving coffee store page</div>;
     // }
-    const { name, location, imgUrl } = props.coffeeStore;
+    const { name, address, neighborhood, imgUrl } = props.coffeeStore;
     return (
         <div className={styles.layout}>
             <Head>
@@ -190,11 +190,9 @@ const CoffeeStore = (props) => {
                             height="24"
                             alt="places icon"
                         />
-                        <p className={styles.text}>
-                            {location.address ?? location.formattedAddress[0]}
-                        </p>
+                        <p className={styles.text}>{address}</p>
                     </div>
-                    {location.neighborhood && (
+                    {neighborhood && (
                         <div className={styles.iconWrapper}>
                             <Image
                                 src="/static/icons/nearMe.svg"
@@ -202,7 +200,7 @@ const CoffeeStore = (props) => {
                                 height="24"
                                 alt="near me icon"
                             />
-                            <p className={styles.text}>{location.neighborhood}</p>
+                            <p className={styles.text}>{neighborhood}</p>
                         </div>
                     )}
                     <div className={styles.iconWrapper}>
