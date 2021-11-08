@@ -5,11 +5,13 @@ import styles from "../styles/Home.module.css";
 import useTrackLocation from "../hooks/use-track-location";
 import Card from "../components/card";
 import coffeeStoresData from "../data/coffee-stores.json";
+import { fetchCoffeeStores } from "../lib/coffee-stores";
 
-export async function getStaticProps() {
+export async function getStaticProps(context) {
+    const coffeeStores = await fetchCoffeeStores();
     return {
         props: {
-            coffeeStores: coffeeStoresData,
+            coffeeStores,
         },
     };
 }
