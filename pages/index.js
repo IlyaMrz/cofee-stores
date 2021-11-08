@@ -54,6 +54,7 @@ export default function Home(props) {
                 setCoffeeStoresError(error.message);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [latLong]);
 
     const handleOnBannerBtnClick = () => {
@@ -80,12 +81,11 @@ export default function Home(props) {
                 <div className={styles.heroImage}>
                     <Image src="/static/hero-image.png" width={700} height={400} alt="hero image" />
                 </div>
-
-                {props.coffeeStores.length > 0 && (
+                {coffeeStores.length > 0 && (
                     <div className={styles.sectionWrapper}>
-                        <h2 className={styles.heading2}>Moscow coffee shops</h2>
+                        <h2 className={styles.heading2}>Coffee shops near me</h2>
                         <div className={styles.cardLayout}>
-                            {props.coffeeStores.map((coffeeStore) => {
+                            {coffeeStores.map((coffeeStore) => {
                                 return (
                                     <Card
                                         key={coffeeStore.id}
@@ -102,11 +102,11 @@ export default function Home(props) {
                     </div>
                 )}
 
-                {coffeeStores.length > 0 && (
+                {props.coffeeStores.length > 0 && (
                     <div className={styles.sectionWrapper}>
-                        <h2 className={styles.heading2}>Coffee shops near me</h2>
+                        <h2 className={styles.heading2}>Moscow coffee shops</h2>
                         <div className={styles.cardLayout}>
-                            {coffeeStores.map((coffeeStore) => {
+                            {props.coffeeStores.map((coffeeStore) => {
                                 return (
                                     <Card
                                         key={coffeeStore.id}
