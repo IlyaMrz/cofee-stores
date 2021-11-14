@@ -37,12 +37,11 @@ export default function Home(props) {
             try {
                 const fetchNEW = async () => {
                     console.log("start");
-                    // const response = await fetch(
-                    //     `/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=30`
-                    // );
-                    const coffeeStores = await fetchCoffeeStores(latLong, 20);
+                    const response = await fetch(
+                        `/api/getCoffeeStoresByLocation?latLong=${latLong}&limit=20`
+                    );
+                    const coffeeStores = await response.json();
                     console.log("useEF", coffeeStores);
-                    // const coffeeStores = await response.json();
                     setCoffeeStores(coffeeStores);
 
                     setCoffeeStoresError("");
