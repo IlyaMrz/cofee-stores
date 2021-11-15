@@ -1,4 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+// import { fetchCoffeeStores } from "../../lib/coffee-stores";
+import { isEmpty } from "../../utils";
+import { StoreContext } from "../../store/store-context";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
@@ -22,12 +25,6 @@ export async function getStaticProps(staticProps) {
         },
     };
 }
-
-// import { fetchCoffeeStores } from "../../lib/coffee-stores";
-
-// import { StoreContext } from "../../store/store-context";
-
-// import { isEmpty } from "../../utils";
 
 // export async function getStaticProps(staticProps) {
 //   const params = staticProps.params;
@@ -62,18 +59,12 @@ export async function getStaticPaths() {
 const CoffeeStore = (props) => {
     const router = useRouter();
     const [votingCount, setVotingCount] = useState(0);
-
-    if (router.isFallback) {
-        return <div>Loading...</div>;
-    }
-
     const id = router.query.id;
-
-    // const [coffeeStore, setCoffeeStore] = useState(initialProps.coffeeStore);
-
-    // const {
-    //   state: { coffeeStores },
-    // } = useContext(StoreContext);
+    const [coffeeStore, setCoffeeStore] = useState(props.coffeeStore);
+    const {
+        state: { coffeeStores },
+    } = useContext(StoreContext);
+    console.log("last statetetetetete", coffeeStores);
 
     // const handleCreateCoffeeStore = async (coffeeStore) => {
     //   try {
@@ -99,23 +90,29 @@ const CoffeeStore = (props) => {
     //   }
     // };
 
-    // useEffect(() => {
-    //   if (isEmpty(initialProps.coffeeStore)) {
-    //     if (coffeeStores.length > 0) {
-    //       const coffeeStoreFromContext = coffeeStores.find((coffeeStore) => {
-    //         return coffeeStore.id.toString() === id; //dynamic id
-    //       });
+    useEffect(() => {
+        if (coffeeStore.length == 0) {
+            setCoffeeStore(
+                coffeeStores.find((coffeeStore) => {
+                    return coffeeStore.id.toString() === id; //dynamic id
+                })
+            );
 
-    //       if (coffeeStoreFromContext) {
-    //         setCoffeeStore(coffeeStoreFromContext);
-    //         handleCreateCoffeeStore(coffeeStoreFromContext);
-    //       }
-    //     }
-    //   } else {
-    //     // SSG
-    //     handleCreateCoffeeStore(initialProps.coffeeStore);
-    //   }
-    // }, [id, initialProps, initialProps.coffeeStore]);
+            //   if (coffeeStoreFromContext) {
+            //     setCoffeeStore(coffeeStoreFromContext);
+            //     handleCreateCoffeeStore(coffeeStoreFromContext);
+            //   }
+        }
+
+        //   else {
+        //     // SSG
+        //     handleCreateCoffeeStore(initialProps.coffeeStore);
+        //   }
+    }, [id, props, props.coffeeStore, coffeeStores]);
+
+    if (router.isFallback) {
+        return <div>Loading...</div>;
+    }
 
     // const { address, name, neighbourhood, imgUrl } = coffeeStore;
 
@@ -153,7 +150,7 @@ const CoffeeStore = (props) => {
     // if (error) {
     //   return <div>Something went wrong retrieving coffee store page</div>;
     // }
-    const { name, address, neighborhood, imgUrl } = props.coffeeStore;
+    const { name, address, neighborhood, imgUrl } = coffeeStore;
     return (
         <div className={styles.layout}>
             <Head>
