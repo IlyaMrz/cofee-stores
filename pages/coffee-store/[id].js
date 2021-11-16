@@ -65,6 +65,7 @@ const CoffeeStore = (props) => {
         state: { coffeeStores },
     } = useContext(StoreContext);
     console.log("last statetetetetete", coffeeStores);
+    console.log("coffeeStore", coffeeStore);
 
     // const handleCreateCoffeeStore = async (coffeeStore) => {
     //   try {
@@ -91,7 +92,7 @@ const CoffeeStore = (props) => {
     // };
 
     useEffect(() => {
-        if (coffeeStore.length == 0) {
+        if (coffeeStores && isEmpty(coffeeStore)) {
             setCoffeeStore(
                 coffeeStores.find((coffeeStore) => {
                     return coffeeStore.id.toString() === id; //dynamic id
@@ -108,7 +109,7 @@ const CoffeeStore = (props) => {
         //     // SSG
         //     handleCreateCoffeeStore(initialProps.coffeeStore);
         //   }
-    }, [id, props, props.coffeeStore, coffeeStores]);
+    }, [id, coffeeStores, coffeeStore]);
 
     if (router.isFallback) {
         return <div>Loading...</div>;
