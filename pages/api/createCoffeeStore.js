@@ -5,10 +5,18 @@ const table = base("coffee-stores");
 
 console.log({ table });
 
-export default function createCoffeeStore(req, res) {
-    if (req.method === "POST") {
-        res.json({ m: "hi there" });
+export default async function createCoffeeStore(req, res) {
+    const findCoffeeStoreRecords = await table
+        .select({
+            filterByFormula: `id="0"`, // ${id}
+        })
+        .firstPage();
+
+    console.log({ findCoffeeStoreRecords });
+
+    if (findCoffeeStoreRecords.length !== 0) {
+        res.json(findCoffeeStoreRecords);
     } else {
-        res.json({ m: "get" });
+        res.json({ m: "create a record" });
     }
 }
