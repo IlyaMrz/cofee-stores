@@ -19,7 +19,7 @@ const getMinifiedRecords = (records) => {
 export default async function createCoffeeStore(req, res) {
     const findCoffeeStoreRecords = await table
         .select({
-            filterByFormula: `id="0"`, // ${id}
+            filterByFormula: `id="2"`, // ${id}
         })
         .firstPage();
 
@@ -28,6 +28,19 @@ export default async function createCoffeeStore(req, res) {
     if (findCoffeeStoreRecords.length !== 0) {
         res.json(getMinifiedRecords(findCoffeeStoreRecords));
     } else {
-        res.json({ m: "create a record" });
+        const createRecords = await table.create([
+            {
+                fields: {
+                    id: "2",
+                    name: "3 second",
+                    address: "addMY venue   ",
+                    neighborhood: "some  3",
+                    voting: 3,
+                    imgUrl: "3 url",
+                },
+            },
+        ]);
+        const records = getMinifiedRecords(createRecords);
+        res.json({ m: "create a record", records });
     }
 }
