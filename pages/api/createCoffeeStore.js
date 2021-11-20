@@ -45,7 +45,7 @@ export default async function createCoffeeStore(req, res) {
                 res.json({ records });
             } else {
                 res.status(400);
-                res.json({ message: "Id or name is missing" });
+                res.json({ message: "name is missing" });
             }
         }
     } else {
