@@ -17,13 +17,13 @@ const getMinifiedRecords = (records) => {
 };
 
 export default async function createCoffeeStore(req, res) {
+    const { id, name, neighborhood, address, imgUrl, voting } = req.body;
+
     const findCoffeeStoreRecords = await table
         .select({
-            filterByFormula: `id="3"`, // ${id}
+            filterByFormula: `id=${id}`,
         })
         .firstPage();
-
-    console.log({ findCoffeeStoreRecords });
 
     if (findCoffeeStoreRecords.length !== 0) {
         res.json(getMinifiedRecords(findCoffeeStoreRecords));
@@ -31,12 +31,12 @@ export default async function createCoffeeStore(req, res) {
         const createRecords = await table.create([
             {
                 fields: {
-                    id: "3",
-                    name: "4 second",
-                    address: "addMY venue   ",
-                    neighborhood: "some  4",
-                    voting: 3,
-                    imgUrl: "4 url",
+                    id,
+                    name,
+                    address,
+                    neighborhood,
+                    voting,
+                    imgUrl,
                 },
             },
         ]);
